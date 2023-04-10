@@ -1,14 +1,3 @@
-# Spring-Template
-This is a template I use for quickly making new backends for rest apis using spring
-
-# Getting Started
-
-To use this Template correctly please enter your project name in the following places:
-
-* pom.xml
-  * artifactId
-  * name
-  * description
 
 ### Reference Documentation
 
