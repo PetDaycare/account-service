@@ -18,6 +18,14 @@
     </properties>
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+
+
         <!--        Spring Jpa for easy database access-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,12 +43,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
             <version>3.0.5</version>
-        </dependency>
-
-        <!--        Enables Jax.rs normed rest annotations-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jersey</artifactId>
         </dependency>
 
         <!--        Mail interface for sending emails-->
