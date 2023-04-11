@@ -1,6 +1,6 @@
-package com.roboter5123.samplerest.model.dto;
+package com.petdaycare.userservice.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.roboter5123.samplerest.model.LoginSession;
+import com.petdaycare.userservice.model.LoginSession;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;

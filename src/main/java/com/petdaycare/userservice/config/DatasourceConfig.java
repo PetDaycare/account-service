@@ -1,4 +1,4 @@
-package com.roboter5123.samplerest.config;
+package com.petdaycare.userservice.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

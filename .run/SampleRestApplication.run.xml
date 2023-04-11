@@ -9,7 +9,7 @@
       <env name="database_password" value="Mensch5123" />
     </envs>
     <module name="samplerest" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.roboter5123.samplerest.SampleRestApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.petdaycare.userservice.SampleRestApplication" />
     <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=" />
     <method v="2">
       <option name="Make" enabled="true" />
