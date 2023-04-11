@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.petdaycare</groupId>
-    <artifactId>user_service</artifactId>
+    <artifactId>backend_template</artifactId>
     <version>0.1.0</version>
-    <name>User Service</name>
-    <description> A Service for CRUDing users and loging them in and out</description>
+    <name>Backend Template</name>
+    <description> A Template for creating backend services</description>
     <properties>
         <java.version>17</java.version>
     </properties>
