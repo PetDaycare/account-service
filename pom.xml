@@ -8,11 +8,11 @@
         <version>3.0.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.roboter5123.PetDaycare</groupId>
-    <artifactId>samplerest</artifactId>
+    <groupId>com.petdaycare</groupId>
+    <artifactId>user_service</artifactId>
     <version>0.1.0</version>
-    <name>backend</name>
-    <description></description>
+    <name>User Service</name>
+    <description> A Service for CRUDing users and loging them in and out</description>
     <properties>
         <java.version>17</java.version>
     </properties>
@@ -24,7 +24,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>3.0.5</version>
         </dependency>
-
 
         <!--        Spring Jpa for easy database access-->
         <dependency>
@@ -107,12 +106,12 @@
         </dependency>
 
         <!--        Springdoc / swagger or documenting apis-->
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.7.0</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
         </dependency>
+
     </dependencies>
 
     <build>

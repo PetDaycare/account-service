@@ -1,7 +1,8 @@
-package com.roboter5123.samplerest.model;
-import com.roboter5123.samplerest.exception.IfThisIsThrownThenThereIsSomethingExtremelyWrongAndYouShouldConsultGodOnYourFurtherCourseOfActionException;
-import com.roboter5123.samplerest.model.dto.UserDTO;
-import com.roboter5123.samplerest.repository.UserRepository;
+package com.petdaycare.userservice.model;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.petdaycare.userservice.exception.IfThisIsThrownThenThereIsSomethingExtremelyWrongAndYouShouldConsultGodOnYourFurtherCourseOfActionException;
+import com.petdaycare.userservice.model.dto.IncomingUserDTO;
+import com.petdaycare.userservice.repository.UserRepository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,8 +27,10 @@ public class User {
 
     @Id
     @GeneratedValue
+    @JsonProperty(value = "user_id")
     private Long userId;
     @Email
+    @JsonProperty(value = "email")
     private String eMail;
     @NotEmpty
     private String hashedPassword;
@@ -60,7 +63,7 @@ public class User {
         }
     }
 
-    public User patch(UserDTO userDTO, UserRepository repository) {
+    public User patch(IncomingUserDTO userDTO, UserRepository repository) {
 
         if (repository.findByeMail(userDTO.getEMail()) != null){
 
