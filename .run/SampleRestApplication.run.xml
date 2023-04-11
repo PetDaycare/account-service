@@ -8,7 +8,7 @@
       <env name="database_user" value="root" />
       <env name="database_password" value="Mensch5123" />
     </envs>
-    <module name="samplerest" />
+    <module name="User-service" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.petdaycare.userservice.SampleRestApplication" />
     <option name="VM_PARAMETERS" value="-Djasypt.encryptor.password=" />
     <method v="2">
