@@ -1,10 +1,10 @@
-package com.petdaycare.userservice.rest.service;
+package com.userservice.rest.service;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.*;
-import com.petdaycare.userservice.model.dto.LoginDTO;
-import com.petdaycare.userservice.model.dto.LoginResultDTO;
-import com.petdaycare.userservice.model.dto.RegisterUserDTO;
-import com.petdaycare.userservice.model.dto.UserConfirmationDTO;
+import com.userservice.model.dto.LoginDTO;
+import com.userservice.model.dto.LoginResultDTO;
+import com.userservice.model.dto.RegisterUserDTO;
+import com.userservice.model.dto.UserConfirmationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package com.petdaycare.userservice.rest;
+package com.userservice.rest;
 import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
-import com.petdaycare.userservice.model.dto.LoginDTO;
-import com.petdaycare.userservice.model.dto.LoginResultDTO;
-import com.petdaycare.userservice.model.dto.RegisterUserDTO;
-import com.petdaycare.userservice.model.dto.UserConfirmationDTO;
-import com.petdaycare.userservice.rest.service.UserService;
+import com.userservice.model.dto.LoginDTO;
+import com.userservice.model.dto.LoginResultDTO;
+import com.userservice.model.dto.RegisterUserDTO;
+import com.userservice.model.dto.UserConfirmationDTO;
+import com.userservice.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

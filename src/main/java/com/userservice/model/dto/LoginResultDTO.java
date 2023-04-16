@@ -1,4 +1,4 @@
-package com.petdaycare.userservice.model.dto;
+package com.userservice.model.dto;
 import com.amazonaws.services.cognitoidp.model.AuthenticationResultType;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
