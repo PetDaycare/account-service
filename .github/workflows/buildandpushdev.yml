@@ -10,7 +10,7 @@ name: build and deploy dev
 
 on:
   push:
-    branches: [ "development" ]
+    branches: [ "dev" ]
 
 jobs:
   build:
