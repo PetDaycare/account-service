@@ -10,12 +10,12 @@ import com.userservice.rest.model.UserServiceLogin;
 import com.userservice.rest.model.UserServiceRegistration;
 import com.userservice.rest.model.UserServiceToken;
 import com.userservice.service.UserService;
-import com.userservice.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
+@NoArgsConstructor
 public class UserResource {
 
     UserService userService;
 
     @Autowired
-    public UserResource(UserServiceImpl userService) {
+    public UserResource(UserService userService) {
 
         this.userService = userService;
     }
