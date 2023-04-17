@@ -1,13 +1,14 @@
-package com.petdaycare.userservice.model.dto;
+package com.userservice.rest.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class RegisterUserDTO {
+public class UserServiceRegistration {
 
     @Email(message = "Field email must contain an email.")
     @JsonProperty(value = "email")
@@ -22,6 +23,8 @@ public class RegisterUserDTO {
     private String userName;
 
     @JsonProperty(value = "password")
+    @NotEmpty
+    @Size(min = 8, message = "password must be at least 8 characters long")
     private String password;
 
 

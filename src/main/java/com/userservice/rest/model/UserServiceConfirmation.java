@@ -1,4 +1,4 @@
-package com.petdaycare.userservice.model.dto;
+package com.userservice.rest.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserConfirmationDTO {
+public class UserServiceConfirmation {
 
     @Email
     @NotEmpty

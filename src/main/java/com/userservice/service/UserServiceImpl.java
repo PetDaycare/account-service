@@ -1,19 +1,19 @@
-package com.petdaycare.userservice.rest.service;
+package com.userservice.service;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.*;
-import com.petdaycare.userservice.model.dto.LoginDTO;
-import com.petdaycare.userservice.model.dto.LoginResultDTO;
-import com.petdaycare.userservice.model.dto.RegisterUserDTO;
-import com.petdaycare.userservice.model.dto.UserConfirmationDTO;
+import com.userservice.rest.model.UserServiceConfirmation;
+import com.userservice.rest.model.UserServiceLogin;
+import com.userservice.rest.model.UserServiceRegistration;
+import com.userservice.rest.model.UserServiceToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@Service
-public class UserService {
+@Component
+public class UserServiceImpl implements UserService{
 
     private final AWSCognitoIdentityProvider client;
     @Value("#{environment.clientId}")
@@ -22,12 +22,12 @@ public class UserService {
     private String userpoolId;
 
     @Autowired
-    public UserService(AWSCognitoIdentityProvider client) {
+    public UserServiceImpl(AWSCognitoIdentityProvider client) {
 
         this.client = client;
     }
 
-    public SignUpResult signUp(RegisterUserDTO user) {
+    public SignUpResult signUp(UserServiceRegistration user) {
 
         SignUpRequest request = new SignUpRequest().withClientId(clientId)
                 .withUsername(user.getEmail())
@@ -41,7 +41,7 @@ public class UserService {
         return client.signUp(request);
     }
 
-    public ConfirmSignUpResult confirmSignup(UserConfirmationDTO confirmation) {
+    public ConfirmSignUpResult confirmSignup(UserServiceConfirmation confirmation) {
 
         ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest()
                 .withClientId(clientId)
@@ -50,7 +50,7 @@ public class UserService {
         return client.confirmSignUp(confirmSignUpRequest);
     }
 
-    public LoginResultDTO login(LoginDTO user) {
+    public UserServiceToken login(UserServiceLogin user) {
 
         Map<String, String> authParams = new LinkedHashMap<>();
         authParams.put("USERNAME", user.getEmail());
@@ -65,7 +65,7 @@ public class UserService {
         AdminInitiateAuthResult authResult = client.adminInitiateAuth(authRequest);
         AuthenticationResultType resultType = authResult.getAuthenticationResult();
 
-        return new LoginResultDTO(resultType, "Successfully logged in");
+        return new UserServiceToken(resultType, "Successfully logged in");
     }
 }
 
