@@ -19,7 +19,7 @@ public class AccountServiceRegistration {
     private String fullName;
 
     @NotEmpty
-    @JsonProperty(value = "username")
+    @JsonProperty(value = "accountname")
     private String accountName;
 
     @JsonProperty(value = "password")
