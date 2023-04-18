@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserServiceToken {
+public class AccountServiceToken {
 
     @NotEmpty
     private String idToken;
@@ -19,7 +19,7 @@ public class UserServiceToken {
 
     private String message;
 
-    public UserServiceToken(AuthenticationResultType resultType, String message) {
+    public AccountServiceToken(AuthenticationResultType resultType, String message) {
 
         this.idToken= resultType.getIdToken();
         this.accessToken = resultType.getAccessToken();

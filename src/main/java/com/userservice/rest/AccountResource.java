@@ -4,12 +4,12 @@ import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.userservice.rest.exception.SignupNotValidException;
-import com.userservice.rest.exception.UserAlreadySignedUpException;
-import com.userservice.rest.model.UserServiceConfirmation;
-import com.userservice.rest.model.UserServiceLogin;
-import com.userservice.rest.model.UserServiceRegistration;
-import com.userservice.rest.model.UserServiceToken;
-import com.userservice.service.UserService;
+import com.userservice.rest.exception.AccountAlreadySignedUpException;
+import com.userservice.rest.model.AccountServiceConfirmation;
+import com.userservice.rest.model.AccountServiceLogin;
+import com.userservice.rest.model.AccountServiceRegistration;
+import com.userservice.rest.model.AccountServiceToken;
+import com.userservice.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @NoArgsConstructor
-public class UserResource {
+public class AccountResource {
 
-    UserService userService;
+    AccountService accountService;
 
     @Autowired
-    public UserResource(UserService userService) {
+    public AccountResource(AccountService accountService) {
 
-        this.userService = userService;
+        this.accountService = accountService;
     }
 
     @PostMapping("/users")
@@ -42,11 +42,11 @@ public class UserResource {
     })
     @ResponseBody
     public SignUpResult registerUser(
-            @Parameter(description = "The user information to register", required = true) @RequestBody @Valid UserServiceRegistration newUser) {
+            @Parameter(description = "The user information to register", required = true) @RequestBody @Valid AccountServiceRegistration newUser) {
 
         try {
 
-            return userService.signUp(newUser);
+            return accountService.signUp(newUser);
 
         } catch (InvalidParameterException e) {
 
@@ -54,23 +54,23 @@ public class UserResource {
 
         }catch (UsernameExistsException e) {
 
-            throw new UserAlreadySignedUpException();
+            throw new AccountAlreadySignedUpException();
         }
 
     }
 
     @PostMapping("/users/verification")
     @ResponseBody
-    public ConfirmSignUpResult confirmUser(@RequestBody UserServiceConfirmation confirmation) {
+    public ConfirmSignUpResult confirmUser(@RequestBody AccountServiceConfirmation confirmation) {
 
-        return userService.confirmSignup(confirmation);
+        return accountService.confirmSignup(confirmation);
     }
 
     @PostMapping("/users/login")
     @ResponseBody
-    public UserServiceToken loginUser(@RequestBody UserServiceLogin user) {
+    public AccountServiceToken loginUser(@RequestBody AccountServiceLogin user) {
 
-        return userService.login(user);
+        return accountService.login(user);
     }
 
 }

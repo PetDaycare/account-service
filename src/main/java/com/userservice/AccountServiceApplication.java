@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @EnableEncryptableProperties
-public class SampleRestApplication {
+public class AccountServiceApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication.run(SampleRestApplication.class, args);
+        SpringApplication.run(AccountServiceApplication.class, args);
     }
 
 }

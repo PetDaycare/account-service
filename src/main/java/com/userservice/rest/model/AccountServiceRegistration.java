@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserServiceRegistration {
+public class AccountServiceRegistration {
 
     @Email(message = "Field email must contain an email.")
     @JsonProperty(value = "email")
@@ -20,7 +20,7 @@ public class UserServiceRegistration {
 
     @NotEmpty
     @JsonProperty(value = "username")
-    private String userName;
+    private String accountName;
 
     @JsonProperty(value = "password")
     @NotEmpty

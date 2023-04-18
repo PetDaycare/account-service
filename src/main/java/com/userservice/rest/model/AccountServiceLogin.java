@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserServiceLogin {
+public class AccountServiceLogin {
 
     @NotEmpty
     private String email;
