@@ -34,19 +34,19 @@ public class AccountResource {
         this.accountService = accountService;
     }
 
-    @PostMapping("/users")
-    @Operation(summary = "Register a new user", description = "Registers a new user to amazon cognito using the given information")
+    @PostMapping("/accounts")
+    @Operation(summary = "Register a new account", description = "Registers a new account to amazon cognito using the given information")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User successfully registered"),
+            @ApiResponse(responseCode = "200", description = "Account successfully registered"),
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
     @ResponseBody
     public SignUpResult registerUser(
-            @Parameter(description = "The user information to register", required = true) @RequestBody @Valid AccountServiceRegistration newUser) {
+            @Parameter(description = "The Account information to register", required = true) @RequestBody @Valid AccountServiceRegistration newAccount) {
 
         try {
 
-            return accountService.signUp(newUser);
+            return accountService.signUp(newAccount);
 
         } catch (InvalidParameterException e) {
 
@@ -59,7 +59,7 @@ public class AccountResource {
 
     }
 
-    @PostMapping("/users/verification")
+    @PostMapping("/accounts/verification")
     @ResponseBody
     public ConfirmSignUpResult confirmUser(@RequestBody AccountServiceConfirmation confirmation) {
 
@@ -68,9 +68,9 @@ public class AccountResource {
 
     @PostMapping("/users/login")
     @ResponseBody
-    public AccountServiceToken loginUser(@RequestBody AccountServiceLogin user) {
+    public AccountServiceToken loginUser(@RequestBody AccountServiceLogin account) {
 
-        return accountService.login(user);
+        return accountService.login(account);
     }
 
 }
