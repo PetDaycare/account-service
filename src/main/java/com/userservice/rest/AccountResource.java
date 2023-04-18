@@ -1,10 +1,8 @@
 package com.userservice.rest;
-import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
-import com.amazonaws.services.cognitoidp.model.SignUpResult;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
-import com.userservice.rest.exception.SignupNotValidException;
 import com.userservice.rest.exception.AccountAlreadySignedUpException;
+import com.userservice.rest.exception.SignupNotValidException;
 import com.userservice.rest.model.AccountServiceConfirmation;
 import com.userservice.rest.model.AccountServiceLogin;
 import com.userservice.rest.model.AccountServiceRegistration;
@@ -38,15 +36,16 @@ public class AccountResource {
     @Operation(summary = "Register a new account", description = "Registers a new account to amazon cognito using the given information")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Account successfully registered"),
-            @ApiResponse(responseCode = "400", description = "Invalid request")
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "409", description = "An account with this email is already signed up"),
     })
     @ResponseBody
-    public SignUpResult registerUser(
+    public void registerUser(
             @Parameter(description = "The Account information to register", required = true) @RequestBody @Valid AccountServiceRegistration newAccount) {
 
         try {
 
-            return accountService.signUp(newAccount);
+            accountService.signUp(newAccount);
 
         } catch (InvalidParameterException e) {
 
@@ -61,9 +60,9 @@ public class AccountResource {
 
     @PostMapping("/accounts/verification")
     @ResponseBody
-    public ConfirmSignUpResult confirmUser(@RequestBody AccountServiceConfirmation confirmation) {
+    public void confirmUser(@RequestBody @Valid AccountServiceConfirmation confirmation) {
 
-        return accountService.confirmSignup(confirmation);
+        accountService.confirmSignup(confirmation);
     }
 
     @PostMapping("/users/login")
