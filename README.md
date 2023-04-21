@@ -13,6 +13,7 @@ On the ports side the first port parameter is the port you want to acces the ser
 example:
 
 5123:8080
+
 host:service
 
 You would be calling the service on: "ipadress:5123/users"
