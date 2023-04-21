@@ -3,7 +3,7 @@
 This is the backend service for accessing users and their login sessions.
 
 
-### Deoloyment
+### Deployment
 
 Here is an example on how to deploy this project as a docker container using docker compose.
 Fill in the environment variables with your values. You will get these from your Cognito user pool.
