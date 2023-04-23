@@ -1,17 +1,22 @@
 package com.userservice.rest;
-import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.userservice.rest.exception.AccountAlreadySignedUpException;
 import com.userservice.rest.exception.SignupNotValidException;
 import com.userservice.rest.model.*;
 import com.userservice.service.AccountService;
+import com.userservice.service.model.EmailConfirmation;
+import com.userservice.service.model.Login;
+import com.userservice.service.model.PasswordResetConfirmation;
+import com.userservice.service.model.Registration;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +24,14 @@ import org.springframework.web.bind.annotation.*;
 @NoArgsConstructor
 public class AccountResource {
 
-    AccountService accountService;
+    private AccountService accountService;
+    private ModelMapper modelMapper;
 
     @Autowired
     public AccountResource(AccountService accountService) {
 
         this.accountService = accountService;
+        this.modelMapper = new ModelMapper();
     }
 
     @PostMapping("/accounts")
@@ -34,13 +41,15 @@ public class AccountResource {
             @ApiResponse(responseCode = "400", description = "Invalid request"),
             @ApiResponse(responseCode = "409", description = "An account with this email is already signed up"),
     })
-    @ResponseBody
-    public void registerUser(
-            @Parameter(description = "The Account information to register", required = true) @RequestBody @Valid AccountServiceRegistration newAccount) {
+
+    public void registerUser(@Parameter(description = "The Account information to register", required = true) @RequestBody @Valid AccountServiceRegistration newAccount) {
+
+
+        Registration registration = modelMapper.map(newAccount, Registration.class);
 
         try {
 
-            accountService.signUp(newAccount);
+            accountService.signUp(registration);
 
         } catch (InvalidParameterException e) {
 
@@ -53,26 +62,36 @@ public class AccountResource {
 
     }
 
-    @PostMapping("/accounts/verification")
-    public void confirmUser(@RequestBody @Valid AccountServiceConfirmation confirmation) {
+    @PostMapping("/accounts/{email}/verification")
+    public void confirmUser(@PathVariable @Email @Valid String email, @RequestBody @Valid AccountServiceEmailConfirmation confirmation) {
 
-        accountService.confirmSignup(confirmation);
+        EmailConfirmation emailConfirmation = modelMapper.map(confirmation, EmailConfirmation.class);
+        emailConfirmation.setEmail(email);
+
+        accountService.confirmSignup(emailConfirmation);
     }
 
-    @PostMapping("/users/login")
-    public AccountServiceToken loginUser(@RequestBody AccountServiceLogin account) {
+    @PostMapping("/accounts/{email}/login")
+    public AccountServiceToken loginUser(@PathVariable @Email @Valid String email, @RequestBody @Valid AccountServiceLogin account) {
 
-        return accountService.login(account);
+        Login login = modelMapper.map(account, Login.class);
+        login.setEmail(email);
+
+        return accountService.login(login);
     }
 
-    @GetMapping("users/{email}/password")
-    public AdminResetUserPasswordResult getPasswordReset(@PathVariable String email) {
+    @GetMapping("accounts/{email}/password")
+    public void getPasswordReset(@PathVariable  @Email @Valid String email) {
 
-        return accountService.resetPassword(email);
+        accountService.resetPassword(email);
     }
-    @PostMapping("users/{email}/password")
-    public void confirmPasswordReset(@PathVariable String email, @RequestBody PasswordResetConfirmation confirmation) {
 
-        accountService.setPassword(email, confirmation);
+    @PostMapping("accounts/{email}/password")
+    public void confirmPasswordReset(@PathVariable @Email @Valid String email, @RequestBody @Valid AccountServicePasswordResetConfirmation confirmation) {
+
+        PasswordResetConfirmation passwordResetConfirmation = modelMapper.map(confirmation, PasswordResetConfirmation.class);
+        passwordResetConfirmation.setEmail(email);
+
+        accountService.setPassword(passwordResetConfirmation);
     }
 }
