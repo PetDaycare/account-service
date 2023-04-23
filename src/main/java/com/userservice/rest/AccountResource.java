@@ -1,8 +1,6 @@
 package com.userservice.rest;
-import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
-import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
-import com.userservice.rest.exception.AccountAlreadySignedUpException;
-import com.userservice.rest.exception.SignupNotValidException;
+import com.amazonaws.services.cognitoidp.model.*;
+import com.userservice.rest.exception.*;
 import com.userservice.rest.model.*;
 import com.userservice.service.AccountService;
 import com.userservice.service.model.EmailConfirmation;
@@ -44,7 +42,6 @@ public class AccountResource {
 
     public void registerUser(@Parameter(description = "The Account information to register", required = true) @RequestBody @Valid AccountServiceRegistration newAccount) {
 
-
         Registration registration = modelMapper.map(newAccount, Registration.class);
 
         try {
@@ -58,8 +55,8 @@ public class AccountResource {
         } catch (UsernameExistsException e) {
 
             throw new AccountAlreadySignedUpException();
-        }
 
+        }
     }
 
     @PostMapping("/accounts/{email}/verification")
@@ -68,7 +65,18 @@ public class AccountResource {
         EmailConfirmation emailConfirmation = modelMapper.map(confirmation, EmailConfirmation.class);
         emailConfirmation.setEmail(email);
 
-        accountService.confirmSignup(emailConfirmation);
+        try {
+
+            accountService.confirmSignup(emailConfirmation);
+
+        } catch (ExpiredCodeException | CodeMismatchException e) {
+
+            throw new InvalidCodeException();
+
+        } catch (UserNotFoundException e) {
+
+            throw new AccountWithEmailDoesntExistException();
+        }
     }
 
     @PostMapping("/accounts/{email}/login")
@@ -77,13 +85,36 @@ public class AccountResource {
         Login login = modelMapper.map(account, Login.class);
         login.setEmail(email);
 
-        return accountService.login(login);
+        try {
+
+            return accountService.login(login);
+
+        } catch (PasswordResetRequiredException e) {
+
+            throw new AccountInactiveException();
+
+        } catch (UserNotConfirmedException e) {
+
+            throw new AccountNotConfirmedException();
+
+        } catch (UserNotFoundException e) {
+
+            throw new AccountWithEmailDoesntExistException();
+        }
+
     }
 
     @GetMapping("accounts/{email}/password")
-    public void getPasswordReset(@PathVariable  @Email @Valid String email) {
+    public void getPasswordReset(@PathVariable @Email @Valid String email) {
 
-        accountService.resetPassword(email);
+        try {
+
+            accountService.resetPassword(email);
+
+        } catch (UserNotFoundException e) {
+
+            throw new AccountWithEmailDoesntExistException();
+        }
     }
 
     @PostMapping("accounts/{email}/password")
@@ -92,6 +123,21 @@ public class AccountResource {
         PasswordResetConfirmation passwordResetConfirmation = modelMapper.map(confirmation, PasswordResetConfirmation.class);
         passwordResetConfirmation.setEmail(email);
 
-        accountService.setPassword(passwordResetConfirmation);
+        try {
+
+            accountService.setPassword(passwordResetConfirmation);
+
+        } catch (ExpiredCodeException | CodeMismatchException e) {
+
+            throw new InvalidCodeException();
+
+        } catch (UserNotConfirmedException e) {
+
+            throw new AccountNotConfirmedException();
+
+        } catch (UserNotFoundException e) {
+
+            throw new AccountWithEmailDoesntExistException();
+        }
     }
 }

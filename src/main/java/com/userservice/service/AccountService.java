@@ -3,7 +3,7 @@ import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordResult;
 import com.amazonaws.services.cognitoidp.model.ConfirmForgotPasswordResult;
 import com.amazonaws.services.cognitoidp.model.ConfirmSignUpResult;
 import com.amazonaws.services.cognitoidp.model.SignUpResult;
-import com.userservice.rest.model.*;
+import com.userservice.rest.model.AccountServiceToken;
 import com.userservice.service.model.EmailConfirmation;
 import com.userservice.service.model.Login;
 import com.userservice.service.model.PasswordResetConfirmation;
