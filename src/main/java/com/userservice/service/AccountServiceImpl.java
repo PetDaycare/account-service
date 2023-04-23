@@ -3,6 +3,12 @@ import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.*;
 import com.userservice.rest.exception.AccountWithEmailDoesntExistException;
 import com.userservice.rest.model.*;
+import com.userservice.service.model.EmailConfirmation;
+import com.userservice.service.model.Login;
+import com.userservice.service.model.PasswordResetConfirmation;
+import com.userservice.service.model.Registration;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,7 +31,7 @@ public class AccountServiceImpl implements AccountService {
         this.client = client;
     }
 
-    public SignUpResult signUp(AccountServiceRegistration user) {
+    public SignUpResult signUp(@Valid Registration user) {
 
         SignUpRequest request = new SignUpRequest().withClientId(clientId)
                 .withUsername(user.getEmail())
@@ -39,20 +45,20 @@ public class AccountServiceImpl implements AccountService {
         return client.signUp(request);
     }
 
-    public ConfirmSignUpResult confirmSignup(AccountServiceConfirmation confirmation) {
+    public ConfirmSignUpResult confirmSignup(@Valid EmailConfirmation emailConfirmation) {
 
         ConfirmSignUpRequest confirmSignUpRequest = new ConfirmSignUpRequest()
                 .withClientId(clientId)
-                .withUsername(confirmation.getEmail())
-                .withConfirmationCode(confirmation.getConfirmationCode());
+                .withUsername(emailConfirmation.getEmail())
+                .withConfirmationCode(emailConfirmation.getConfirmationCode());
         return client.confirmSignUp(confirmSignUpRequest);
     }
 
-    public AccountServiceToken login(AccountServiceLogin user) {
+    public AccountServiceToken login(Login login) {
 
         Map<String, String> authParams = new LinkedHashMap<>();
-        authParams.put("USERNAME", user.getEmail());
-        authParams.put("PASSWORD", user.getPassword());
+        authParams.put("USERNAME", login.getEmail());
+        authParams.put("PASSWORD", login.getPassword());
 
         AdminInitiateAuthRequest authRequest = new AdminInitiateAuthRequest()
                 .withAuthFlow(AuthFlowType.ADMIN_NO_SRP_AUTH)
@@ -67,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AdminResetUserPasswordResult resetPassword(String email) {
+    public AdminResetUserPasswordResult resetPassword(@Email @Valid String email) {
 
         AdminResetUserPasswordRequest request = new AdminResetUserPasswordRequest()
                 .withUserPoolId(userpoolId)
@@ -83,12 +89,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public ConfirmForgotPasswordResult setPassword(String email, PasswordResetConfirmation confirmation) {
+    public ConfirmForgotPasswordResult setPassword(PasswordResetConfirmation passwordResetConfirmation) {
 
         ConfirmForgotPasswordRequest request = new ConfirmForgotPasswordRequest()
-                .withPassword(confirmation.getPassword())
-                .withConfirmationCode(confirmation.getResetCode())
-                .withUsername(email)
+                .withPassword(passwordResetConfirmation.getPassword())
+                .withConfirmationCode(passwordResetConfirmation.getResetCode())
+                .withUsername(passwordResetConfirmation.getEmail())
                 .withClientId(clientId);
         return client.confirmForgotPassword(request);
     }
