@@ -1,18 +1,16 @@
-package com.userservice.rest.model;
+package com.userservice.service.model;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 @Data
 @NoArgsConstructor
-public class AccountServiceConfirmation {
+public class EmailConfirmation {
 
     @Email
-    @NotEmpty
     private String email;
 
-    @NotEmpty
+    @Length(min = 6, max = 6)
     private String confirmationCode;
-
 }
