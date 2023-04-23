@@ -1,4 +1,5 @@
 package com.userservice.rest;
+import com.amazonaws.services.cognitoidp.model.AdminResetUserPasswordResult;
 import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.userservice.rest.exception.AccountAlreadySignedUpException;
@@ -15,10 +16,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @NoArgsConstructor
@@ -51,7 +49,7 @@ public class AccountResource {
 
             throw new SignupNotValidException();
 
-        }catch (UsernameExistsException e) {
+        } catch (UsernameExistsException e) {
 
             throw new AccountAlreadySignedUpException();
         }
@@ -59,17 +57,21 @@ public class AccountResource {
     }
 
     @PostMapping("/accounts/verification")
-    @ResponseBody
     public void confirmUser(@RequestBody @Valid AccountServiceConfirmation confirmation) {
 
         accountService.confirmSignup(confirmation);
     }
 
     @PostMapping("/users/login")
-    @ResponseBody
     public AccountServiceToken loginUser(@RequestBody AccountServiceLogin account) {
 
         return accountService.login(account);
     }
 
+    @GetMapping("users/{email}/password")
+    public AdminResetUserPasswordResult getPasswordReset(@PathVariable String email) {
+
+        return accountService.resetPassword(email);
+    }
+    
 }

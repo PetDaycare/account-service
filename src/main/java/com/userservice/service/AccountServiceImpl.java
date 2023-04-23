@@ -1,10 +1,8 @@
 package com.userservice.service;
 import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider;
 import com.amazonaws.services.cognitoidp.model.*;
-import com.userservice.rest.model.AccountServiceConfirmation;
-import com.userservice.rest.model.AccountServiceLogin;
-import com.userservice.rest.model.AccountServiceRegistration;
-import com.userservice.rest.model.AccountServiceToken;
+import com.userservice.rest.exception.AccountWithEmailDoesntExistException;
+import com.userservice.rest.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -66,6 +64,22 @@ public class AccountServiceImpl implements AccountService {
         AuthenticationResultType resultType = authResult.getAuthenticationResult();
 
         return new AccountServiceToken(resultType, "Successfully logged in");
+    }
+
+    @Override
+    public AdminResetUserPasswordResult resetPassword(String email) {
+
+        AdminResetUserPasswordRequest request = new AdminResetUserPasswordRequest()
+                .withUserPoolId(userpoolId)
+                .withUsername(email);
+        AdminResetUserPasswordResult result = client.adminResetUserPassword(request);
+
+        if (result.getSdkHttpMetadata().getHttpStatusCode() != 200){
+
+            throw new AccountWithEmailDoesntExistException();
+        }
+
+        return result;
     }
 }
 
