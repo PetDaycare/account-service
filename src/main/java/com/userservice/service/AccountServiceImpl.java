@@ -81,5 +81,16 @@ public class AccountServiceImpl implements AccountService {
 
         return result;
     }
+
+    @Override
+    public ConfirmForgotPasswordResult setPassword(String email, PasswordResetConfirmation confirmation) {
+
+        ConfirmForgotPasswordRequest request = new ConfirmForgotPasswordRequest()
+                .withPassword(confirmation.getPassword())
+                .withConfirmationCode(confirmation.getResetCode())
+                .withUsername(email)
+                .withClientId(clientId);
+        return client.confirmForgotPassword(request);
+    }
 }
 

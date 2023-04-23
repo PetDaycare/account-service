@@ -4,10 +4,7 @@ import com.amazonaws.services.cognitoidp.model.InvalidParameterException;
 import com.amazonaws.services.cognitoidp.model.UsernameExistsException;
 import com.userservice.rest.exception.AccountAlreadySignedUpException;
 import com.userservice.rest.exception.SignupNotValidException;
-import com.userservice.rest.model.AccountServiceConfirmation;
-import com.userservice.rest.model.AccountServiceLogin;
-import com.userservice.rest.model.AccountServiceRegistration;
-import com.userservice.rest.model.AccountServiceToken;
+import com.userservice.rest.model.*;
 import com.userservice.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -73,5 +70,9 @@ public class AccountResource {
 
         return accountService.resetPassword(email);
     }
-    
+    @PostMapping("users/{email}/password")
+    public void confirmPasswordReset(@PathVariable String email, @RequestBody PasswordResetConfirmation confirmation) {
+
+        accountService.setPassword(email, confirmation);
+    }
 }
