@@ -2,10 +2,12 @@ package com.userservice.service.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode
 public class Registration {
 
     @Email(message = "email must be a valid email")

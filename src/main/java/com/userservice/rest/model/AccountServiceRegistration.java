@@ -25,6 +25,4 @@ public class AccountServiceRegistration {
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     @Size(min = 8,max = 255, message = "Password must be between 8 and 255 characters long")
     private String password;
-
-
 }
